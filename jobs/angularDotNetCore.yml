@@ -27,11 +27,6 @@ jobs:
 # Runs common steps - gitVersion, Nuget
   - template: ../templates/common/common.yml
 
-# Performs npm steps - install, build, test, test publishing
-  - template: ../templates/npm/npm.yml
-    parameters:
-      nodeVersion: ${{ parameters.nodeVersion }}
-
 # SonarCloud Prepare step
   - template: ../templates/sonarCloud/sonarCloudPrepare.yml
     parameters:
@@ -45,18 +40,6 @@ jobs:
       buildConfiguration: '${{ parameters.buildConfiguration }}'
       vstsFeedId: '${{ parameters.vstsFeedId }}'
 
-# Get secrets from Key Vault
-  - template: ../templates/getSecrets/getSecrets.yml
-    parameters:
-        azureSubscription: '${{ parameters.azureSubscription }}'
-        KeyVaultName: '${{ parameters.KeyVaultName }}'
-        SecretsFilter: '${{ parameters.SecretsFilter }}'
-
-  - template: ../templates/getSecrets/getSecrets.yml
-    parameters:
-        azureSubscription: '${{ parameters.azureSubscription }}'
-        KeyVaultName: '${{ parameters.infraKeyVaultName }}'
-        SecretsFilter: '${{ parameters.infraSecretsFilter }}'
 
   # Executes tests projects that do not contain acceptance in the name
   - template: ../templates/tests/runAllTests.yml
