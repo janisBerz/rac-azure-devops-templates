@@ -42,6 +42,7 @@ jobs:
   pool: '${{ parameters.pool }}'
   environment: 'prod'
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
+  dependsOn: 'deployment_uat'
   strategy:
     runOnce:
       deploy:
