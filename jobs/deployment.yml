@@ -1,7 +1,11 @@
+parameters:
+  pool: 'rac-pool'
+  azureSubscriptionName: 'DevTest'
+
 jobs:
 - deployment: deployment_dev
   displayName: 'Dev'
-  #pool: '$(poolName)'
+  pool: '${{ parameters.pool }}'
   environment: 'dev'
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
@@ -12,7 +16,7 @@ jobs:
 
 - deployment: deployment_uat
   displayName: 'UAT'
-  pool: '$(poolName)'
+  pool: '${{ parameters.pool }}'
   environment: 'test'
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
@@ -23,7 +27,7 @@ jobs:
 
 - deployment: deployment_prod
   displayName: 'Prod'
-  pool: '$(poolName)'
+  pool: '${{ parameters.pool }}'
   environment: 'prod'
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
