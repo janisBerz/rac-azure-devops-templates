@@ -1,6 +1,6 @@
 parameters:
   sonarCloudName: 'SonarCloudDevTest'
-  sonarCloudOrganization: 'JanisBerzins'
+  sonarCloudOrganization: 'janisberz-github'
   sonarCloudProjectKey: '$(sonarCloudProjectKey)'
   sonarCloudProjectName: ''
   sonarCloudProjectVersion: '$(Build.BuildNumber)'
