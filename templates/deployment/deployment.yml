@@ -6,7 +6,7 @@ parameters:
 
 steps:
   - task: AzureRmWebAppDeployment@4
-    condition: and(succeeded(), ne(variables['functionName'], ''))
+    condition: and(succeeded(), ne('${{ parameters.functionName }}', ''))
     displayName: 'Deploy Function App'
     inputs:
       appType: functionApp
@@ -15,7 +15,7 @@ steps:
       package: '$(Pipeline.Workspace)/app/*.zip'
 
   - task: AzureRmWebAppDeployment@4
-    condition: and(succeeded(), ne(variables['webAppName'], ''))
+    condition: and(succeeded(), ne('${{ parameters.WebAppName }}', ''))
     displayName: 'Deploy Web App'
     inputs:
       appType: webApp
