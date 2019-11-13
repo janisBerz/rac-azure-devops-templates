@@ -10,7 +10,6 @@ jobs:
         steps:
         - template: ../templates/deployment/deployment.yml
 
-jobs:
 - deployment: deployment_uat
   displayName: 'UAT'
   pool: '$(poolName)'
@@ -22,7 +21,6 @@ jobs:
         steps:
         - template: ../templates/deployment/deployment.yml
 
-jobs:
 - deployment: deployment_prod
   displayName: 'Prod'
   pool: '$(poolName)'
