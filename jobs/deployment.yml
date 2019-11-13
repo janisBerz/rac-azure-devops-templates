@@ -24,35 +24,39 @@ stages:
               WebAppName: '${{ parameters.WebAppName }}'
               functionName: '${{ parameters.functionName }}'
 
-# - deployment: deployment_uat
-#   displayName: 'UAT'
-#   pool: '${{ parameters.pool }}'
-#   environment: 'test'
-#   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
-#   strategy:
-#     runOnce:
-#       deploy:
-#         steps:
-#         - template: ../templates/deployment/deployment.yml
-#           parameters:
-#             azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
-#             pool: '${{ parameters.pool }}'
-#             WebAppName: '${{ parameters.WebAppName }}'
-#             functionName: '${{ parameters.functionName }}'
+- stage: Deployment_UAT
+  jobs:
+  - deployment: deployment_uat
+    displayName: 'UAT'
+    pool: '${{ parameters.pool }}'
+    environment: 'test'
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/deployment/deployment.yml
+            parameters:
+              azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
+              pool: '${{ parameters.pool }}'
+              WebAppName: '${{ parameters.WebAppName }}'
+              functionName: '${{ parameters.functionName }}'
 
-# - deployment: deployment_prod
-#   displayName: 'Prod'
-#   pool: '${{ parameters.pool }}'
-#   environment: 'prod'
-#   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
-#   dependsOn: 'deployment_uat'
-#   strategy:
-#     runOnce:
-#       deploy:
-#         steps:
-#         - template: ../templates/deployment/deployment.yml
-#           parameters:
-#             azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
-#             pool: '${{ parameters.pool }}'
-#             WebAppName: '${{ parameters.WebAppName }}'
-#             functionName: '${{ parameters.functionName }}'
+- stage: Deployment_Prod
+  jobs:
+  - deployment: deployment_prod
+    displayName: 'Prod'
+    pool: '${{ parameters.pool }}'
+    environment: 'prod'
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
+    dependsOn: 'deployment_uat'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../templates/deployment/deployment.yml
+            parameters:
+              azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
+              pool: '${{ parameters.pool }}'
+              WebAppName: '${{ parameters.WebAppName }}'
+              functionName: '${{ parameters.functionName }}'
