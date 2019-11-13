@@ -1,38 +1,35 @@
-- stage: Deployment_Dev
-  jobs:
-  - deployment: deployment_dev
-    displayName: 'Dev'
-    #pool: '$(poolName)'
-    environment: 'dev'
-    # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../templates/deployment/deployment.yml
+jobs:
+- deployment: deployment_dev
+  displayName: 'Dev'
+  #pool: '$(poolName)'
+  environment: 'dev'
+  # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - template: ../templates/deployment/deployment.yml
 
-- stage: Deployment_UAT
-  jobs:
-  - deployment: deployment_uat
-    displayName: 'UAT'
-    pool: '$(poolName)'
-    environment: 'test'
-    # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../templates/deployment/deployment.yml
+jobs:
+- deployment: deployment_uat
+  displayName: 'UAT'
+  pool: '$(poolName)'
+  environment: 'test'
+  # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - template: ../templates/deployment/deployment.yml
 
-- stage: Deployment_Prod
-  jobs:
-  - deployment: deployment_prod
-    displayName: 'Prod'
-    pool: '$(poolName)'
-    environment: 'prod'
-    # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - template: ../templates/deployment/deployment.yml
+jobs:
+- deployment: deployment_prod
+  displayName: 'Prod'
+  pool: '$(poolName)'
+  environment: 'prod'
+  # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - template: ../templates/deployment/deployment.yml
