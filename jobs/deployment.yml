@@ -9,7 +9,7 @@ jobs:
   displayName: 'Dev'
   pool: '${{ parameters.pool }}'
   environment: 'dev'
-  # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
   strategy:
     runOnce:
       deploy:
@@ -25,7 +25,7 @@ jobs:
   displayName: 'UAT'
   pool: '${{ parameters.pool }}'
   environment: 'test'
-  # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], '/refs/tags/v'))
   strategy:
     runOnce:
       deploy:
@@ -41,7 +41,7 @@ jobs:
   displayName: 'Prod'
   pool: '${{ parameters.pool }}'
   environment: 'prod'
-  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], /refs/tags/v'))
   strategy:
     runOnce:
       deploy:
