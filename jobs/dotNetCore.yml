@@ -8,11 +8,6 @@ parameters:
   coverletCoverageExclusions: ''
   integrationTestsAppSettingsTransform: ''
   solutionType: ''
-  KeyVaultName: ''
-  SecretsFilter: ''
-  infraKeyVaultName: ''
-  infraSecretsFilter: ''
-  nodeVersion: '8.11.4'
 
 jobs:
 - job:
