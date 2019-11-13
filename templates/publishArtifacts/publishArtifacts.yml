@@ -6,8 +6,8 @@ steps:
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: WebApp'
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\WebApp'
-      ArtifactName: WebApp
+      PathtoPublish: '$(build.artifactstagingdirectory)'
+      ArtifactName: App
 
   # This step will check if the Acceptance tests exists if not the consecutive step will be skipped.
   # Some source code repos might not have Acceptance tests.
