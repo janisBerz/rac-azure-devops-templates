@@ -1,6 +1,6 @@
 parameters:
-  sonarCloudName: 'HMCTS_SonarCloud'
-  sonarCloudOrganization: 'hmcts'
+  sonarCloudName: 'SonarCloudDevTest'
+  sonarCloudOrganization: 'JanisBerzins'
   sonarCloudProjectKey: '$(sonarCloudProjectKey)'
   sonarCloudProjectName: ''
   sonarCloudProjectVersion: '$(Build.BuildNumber)'

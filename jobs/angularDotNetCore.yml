@@ -1,8 +1,7 @@
 parameters:
-  vstsFeedId: '0bb8fdf9-08cc-423c-8a96-81a1e4d65711'
-  pool: 'Azure-VSTS-VS2017'
+  pool: 'rac-pool'
   cleanCheckout: 'false'
-  azureSubscription: 'Reform-CFT-VH-Dev'
+  azureSubscription: 'DevTest'
   buildConfiguration: 'Release'
   sonarCloudProjectKey: ''
   sonarCloudextraProperties: ''
