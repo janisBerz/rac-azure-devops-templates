@@ -1,5 +1,5 @@
 parameters:
-  pool: 'rac-pool'
+  pool: 'windows-latest'
   cleanCheckout: 'false'
   azureSubscription: 'DevTest'
   buildConfiguration: 'Release'
@@ -16,8 +16,9 @@ parameters:
 
 jobs:
 - job:
-  displayName: 'Build & Test Java Script and .Net Core'
-  pool: ${{ parameters.pool }}
+  displayName: 'Build & Test .Net Core'
+  pool:
+    vmImage:  ${{ parameters.pool }}
 
   # Reference templae for setting up build tools
   steps:
@@ -38,7 +39,6 @@ jobs:
   - template: ../templates/vsBuild/dotnetBuild.yml
     parameters:
       buildConfiguration: '${{ parameters.buildConfiguration }}'
-      vstsFeedId: '${{ parameters.vstsFeedId }}'
 
 
   # Executes tests projects that do not contain acceptance in the name
