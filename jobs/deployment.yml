@@ -1,6 +1,7 @@
 parameters:
   pool: 'rac-pool'
   azureSubscriptionName: 'DevTest'
+  WebAppName: 'DevTest'
 
 jobs:
 - deployment: deployment_dev
@@ -16,7 +17,8 @@ jobs:
         - template: ../templates/deployment/deployment.yml
           parameters:
             azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
-            WebAppName: '${{ parameters.pool }}'
+            pool: '${{ parameters.pool }}'
+            WebAppName: '${{ parameters.WebAppName }}'
 
 
 - deployment: deployment_uat
@@ -32,7 +34,8 @@ jobs:
         - template: ../templates/deployment/deployment.yml
           parameters:
             azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
-            WebAppName: '${{ parameters.pool }}'
+            pool: '${{ parameters.pool }}'
+            WebAppName: '${{ parameters.WebAppName }}'
 
 - deployment: deployment_prod
   displayName: 'Prod'
@@ -47,4 +50,5 @@ jobs:
         - template: ../templates/deployment/deployment.yml
           parameters:
             azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
-            WebAppName: '${{ parameters.pool }}'
+            pool: '${{ parameters.pool }}'
+            WebAppName: '${{ parameters.WebAppName }}'
