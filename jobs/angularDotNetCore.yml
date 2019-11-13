@@ -17,8 +17,8 @@ parameters:
 jobs:
 - job:
   displayName: 'Build & Test .Net Core'
-  pool:
-    vmImage:  ${{ parameters.pool }}
+  pool: 'rac-pool'
+    #vmImage:  ${{ parameters.pool }}
 
   # Reference templae for setting up build tools
   steps:
