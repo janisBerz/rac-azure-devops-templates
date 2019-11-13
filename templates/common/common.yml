@@ -1,5 +1,4 @@
 parameters:
-  nugetVersion: 4.9.3  # Min version must be 4.7.1
   dotNetCoreVersion: '3.2.x'
 
 steps:
@@ -8,13 +7,8 @@ steps:
     inputs:
       preferBundledVersion: false
 
-  # - task: NuGetToolInstaller@0
-  #   displayName: 'Use NuGet ${{ parameters.nugetVersion }}'
+  # - task: UseDotNet@2
+  #   displayName: 'Use .NET Core sdk ${{ parameters.dotNetCoreVersion }}'
   #   inputs:
-  #     versionSpec: ${{ parameters.nugetVersion }}
-
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk ${{ parameters.dotNetCoreVersion }}'
-    inputs:
-      version: ${{ parameters.dotNetCoreVersion }}
-      includePreviewVersions: true
+  #     version: ${{ parameters.dotNetCoreVersion }}
+  #     includePreviewVersions: true
