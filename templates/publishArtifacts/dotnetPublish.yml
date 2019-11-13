@@ -3,11 +3,20 @@ parameters:
   apiDirectory: ''
 
 steps:
+  # - task: DotNetCoreCLI@2
+  #   displayName: 'DotNet Core Package WebApp'
+  #   inputs:
+  #     command: publish
+  #     arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(build.artifactstagingdirectory) --no-build'
+  #     projects: '**/*.sln'
+  #     zipAfterPublish: true
+
   - task: DotNetCoreCLI@2
-    displayName: Publish
+    displayName: 'DotNet Core Package Function'
     inputs:
       command: publish
+      arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(build.artifactstagingdirectory) --no-build'
+      projects: '**/*.sln'
       publishWebProjects: false
-      arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(build.artifactstagingdirectory)\WebApp --no-build'
-      zipAfterPublish: True
-      workingDirectory: '${{ parameters.apiDirectory }}'
+      zipAfterPublish: true
+      #modifyOutputPath: true
