@@ -1,7 +1,8 @@
 parameters:
   azureSubscriptionName: ''
-  WebAppName: ''
   functionName: ''
+  WebAppName: ''
+
 
 steps:
   - task: AzureRmWebAppDeployment@4

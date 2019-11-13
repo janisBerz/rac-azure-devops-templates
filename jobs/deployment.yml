@@ -8,7 +8,6 @@ jobs:
 - deployment: deployment_dev
   displayName: 'Dev'
   pool: '${{ parameters.pool }}'
-  continueOnError: false
   environment: 'dev'
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
@@ -25,7 +24,6 @@ jobs:
 - deployment: deployment_uat
   displayName: 'UAT'
   pool: '${{ parameters.pool }}'
-  continueOnError: false
   environment: 'test'
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
@@ -42,7 +40,6 @@ jobs:
 - deployment: deployment_prod
   displayName: 'Prod'
   pool: '${{ parameters.pool }}'
-  continueOnError: false
   environment: 'prod'
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
