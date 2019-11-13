@@ -1,0 +1,93 @@
+parameters:
+  nodeVersion: ''
+
+steps:
+# Conditions on step template do not work at this point - https://github.com/Microsoft/azure-pipelines-yaml/issues/30
+#- ${{ if in(variables['solutionType'],  'angularDotNetCore') }}:
+
+  - powershell: |
+     $npmWorkingDir = (Resolve-Path $(Build.SourcesDirectory)\**\**\ClientApp\package.json).path.Replace("package.json","")
+     Write-Host "##vso[task.setvariable variable=npmWorkingDir;]$npmWorkingDir"
+    displayName: Resolve Angular working directory
+    condition: in(variables['solutionType'], 'angularDotNetCore', 'angular')
+
+  - task: NodeTool@0
+    displayName: 'Configure node version'
+    inputs:
+      versionSpec: ${{ parameters.nodeVersion }}
+
+  - task: Npm@1
+    displayName: 'Install Node Modules'
+    inputs:
+      workingDir: $(npmWorkingDir)
+      verbose: false
+    condition: |
+        and(
+        in(variables['solutionType'], 'angularDotNetCore', 'angular'),
+        succeeded()
+        )
+
+  - task: Npm@1
+    displayName: 'Run Lint'
+    inputs:
+      command: custom
+      workingDir: $(npmWorkingDir)
+      verbose: false
+      customCommand: 'run lint'
+    condition: |
+        and(
+        in(variables['solutionType'], 'angularDotNetCore', 'angular'),
+        succeeded()
+        )
+
+  - task: Npm@1
+    displayName: 'Compile ClientApp'
+    inputs:
+      command: custom
+      workingDir: $(npmWorkingDir)
+      verbose: false
+      customCommand: 'run build-prod'
+    condition: |
+        and(
+        in(variables['solutionType'], 'angularDotNetCore', 'angular'),
+        succeeded()
+        )
+
+  - task: Npm@1
+    displayName: 'Run Jasmine Tests'
+    inputs:
+      command: custom
+      workingDir: $(npmWorkingDir)
+      verbose: false
+      customCommand: 'run test-once-ci'
+    condition: |
+        and(
+        in(variables['solutionType'], 'angularDotNetCore', 'angular'),
+        succeeded()
+        )
+
+  - task: PublishTestResults@2
+    displayName: 'Publish Jasmine Test Results'
+    inputs:
+      testResultsFiles: '*TESTS.xml'
+      searchFolder: '$(npmWorkingDir)/jasmine-tests'
+      mergeTestResults: true
+      testRunTitle: 'Jasmine Test Results'
+    condition: |
+        and(
+        in(variables['solutionType'], 'angularDotNetCore', 'angular'),
+        succeeded()
+        )
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish Jasmine Code Coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      failIfCoverageEmpty: true
+      summaryFileLocation: '$(npmWorkingDir)/coverage/cobertura-coverage.xml'
+      reportDirectory: '$(npmWorkingDir)/coverage/'
+    condition: |
+        and(
+        in(variables['solutionType'], 'angularDotNetCore', 'angular'),
+        succeeded()
+        )

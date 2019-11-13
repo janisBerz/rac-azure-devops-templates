@@ -1,0 +1,35 @@
+parameters:
+  azureSubscription: ''
+  resourceGroupName: ''
+  appServicePlanName: ''
+  webSiteName: ''
+  customHostname: ''
+  wildcardCertificateThumbprint: ''
+  allowedCorsOrigins: 'http://localhost, https://localhost'
+
+steps:
+  - task: AzureResourceGroupDeployment@2
+    displayName: 'Provision Web App Dev'
+    inputs:
+      azureSubscription: 'Reform-CFT-VH-Dev'
+      action: 'Create Or Update Resource Group'
+      resourceGroupName: ${{ parameters.resourceGroupName }}
+      location: 'UK West'
+      csmFile: 'infrastructure/azuredeploy.json'
+      csmParametersFile: 'infrastructure/azuredeploy.parameters.json'
+      overrideParameters: -appServicePlanName ${{ parameters.appServicePlanName }} -AzureWebsite ${{ parameters.webSiteName }} -customHostname ${{ parameters.customHostname }} -certificateThumbprint ${{ parameters.wildcardCertificateThumbprint }} -allowedCorsOrigins ${{ parameters.allowedCorsOrigins}}
+      deploymentMode: Incremental
+    condition: and(succeeded(), notIn(variables['environmentName'], 'pilot', 'preprod', 'prod'))
+
+  - task: AzureResourceGroupDeployment@2
+    displayName: 'Provision Web App Prod'
+    inputs:
+      azureSubscription: 'DCD-CFT-VH-Pilot'
+      action: 'Create Or Update Resource Group'
+      resourceGroupName: ${{ parameters.resourceGroupName }}
+      location: 'UK West'
+      csmFile: 'infrastructure/azuredeploy.json'
+      csmParametersFile: 'infrastructure/azuredeploy.parameters.json'
+      overrideParameters: -appServicePlanName ${{ parameters.appServicePlanName }} -AzureWebsite ${{ parameters.webSiteName }} -customHostname ${{ parameters.customHostname }} -certificateThumbprint ${{ parameters.wildcardCertificateThumbprint }} -allowedCorsOrigins ${{ parameters.allowedCorsOrigins}}
+      deploymentMode: Incremental
+    condition: and(succeeded(),in(variables['environmentName'], 'pilot', 'preprod', 'prod'))

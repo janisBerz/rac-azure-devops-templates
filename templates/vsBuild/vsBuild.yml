@@ -1,0 +1,21 @@
+parameters:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: ''
+
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'DotNet Core Restore'
+    inputs:
+      command: restore
+      projects: '**/*.sln'
+      vstsFeed: '${{ parameters.vstsFeedId }}'
+      includeNuGetOrg: false
+
+# Builds VS Solution
+  - task: VSBuild@1
+    displayName: 'Build solution */*.sln'
+    inputs:
+      solution: '*/*.sln'
+      platform: '${{ parameters.buildPlatform }}'
+      configuration: '${{ parameters.buildConfiguration }}'
+      msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactstagingdirectory)\WebApp"'
