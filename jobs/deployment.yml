@@ -41,7 +41,7 @@ jobs:
   displayName: 'Prod'
   pool: '${{ parameters.pool }}'
   environment: 'prod'
-  # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
     runOnce:
       deploy:
