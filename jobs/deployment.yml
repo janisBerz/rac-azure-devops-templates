@@ -25,7 +25,7 @@ jobs:
   displayName: 'UAT'
   pool: '${{ parameters.pool }}'
   environment: 'test'
-  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], '/refs/tags/v'))
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], '/refs/tags'))
   strategy:
     runOnce:
       deploy:
@@ -41,7 +41,7 @@ jobs:
   displayName: 'Prod'
   pool: '${{ parameters.pool }}'
   environment: 'prod'
-  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], /refs/tags/v'))
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], /refs/tags'))
   strategy:
     runOnce:
       deploy:
