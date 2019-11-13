@@ -35,7 +35,6 @@ jobs:
     parameters:
       buildConfiguration: '${{ parameters.buildConfiguration }}'
 
-
   # Executes tests projects that do not contain acceptance in the name
   - template: ../templates/tests/runAllTests.yml
     parameters:

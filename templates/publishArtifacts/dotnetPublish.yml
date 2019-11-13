@@ -1,17 +1,20 @@
 parameters:
   buildConfiguration: 'Release'
-  apiDirectory: ''
+  functionName: ''
+  webAppName: ''
 
 steps:
-  # - task: DotNetCoreCLI@2
-  #   displayName: 'DotNet Core Package WebApp'
-  #   inputs:
-  #     command: publish
-  #     arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(build.artifactstagingdirectory) --no-build'
-  #     projects: '**/*.sln'
-  #     zipAfterPublish: true
+  - task: DotNetCoreCLI@2
+    condition: and(succeeded(), ne('${{ parameters.webAppName }}', ''))
+    displayName: 'DotNet Core Package WebApp'
+    inputs:
+      command: publish
+      arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(build.artifactstagingdirectory) --no-build'
+      projects: '**/*.sln'
+      zipAfterPublish: true
 
   - task: DotNetCoreCLI@2
+    condition: and(succeeded(), ne('${{ parameters.functionName }}', ''))
     displayName: 'DotNet Core Package Function'
     inputs:
       command: publish
