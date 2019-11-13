@@ -7,6 +7,7 @@ jobs:
 - deployment: deployment_dev
   displayName: 'Dev'
   pool: '${{ parameters.pool }}'
+  continueOnError: false
   environment: 'dev'
   condition: succeeded()
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
@@ -24,6 +25,7 @@ jobs:
 - deployment: deployment_uat
   displayName: 'UAT'
   pool: '${{ parameters.pool }}'
+  continueOnError: false
   environment: 'test'
   condition: succeeded()
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
@@ -40,6 +42,7 @@ jobs:
 - deployment: deployment_prod
   displayName: 'Prod'
   pool: '${{ parameters.pool }}'
+  continueOnError: false
   environment: 'prod'
   condition: succeeded()
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
