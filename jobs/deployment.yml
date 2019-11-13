@@ -7,6 +7,7 @@ jobs:
   displayName: 'Dev'
   pool: '${{ parameters.pool }}'
   environment: 'dev'
+  condition: succeeded()
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
     runOnce:
@@ -22,6 +23,7 @@ jobs:
   displayName: 'UAT'
   pool: '${{ parameters.pool }}'
   environment: 'test'
+  condition: succeeded()
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
     runOnce:
@@ -36,6 +38,7 @@ jobs:
   displayName: 'Prod'
   pool: '${{ parameters.pool }}'
   environment: 'prod'
+  condition: succeeded()
   # condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/feature'))
   strategy:
     runOnce:
