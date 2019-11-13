@@ -1,0 +1,83 @@
+parameters:
+  vstsFeedId: '0bb8fdf9-08cc-423c-8a96-81a1e4d65711'
+  pool: 'Azure-VSTS-VS2017'
+  cleanCheckout: 'false'
+  azureSubscription: 'Reform-CFT-VH-Dev'
+  buildConfiguration: 'Release'
+  sonarCloudProjectKey: ''
+  sonarCloudextraProperties: ''
+  coverletCoverageExclusions: ''
+  integrationTestsAppSettingsTransform: ''
+  solutionType: ''
+  KeyVaultName: ''
+  SecretsFilter: ''
+  infraKeyVaultName: ''
+  infraSecretsFilter: ''
+  nodeVersion: '8.11.4'
+
+jobs:
+- job:
+  displayName: 'Build & Test Java Script and .Net Core'
+  pool: ${{ parameters.pool }}
+
+  # Reference templae for setting up build tools
+  steps:
+  - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+    clean: ${{ parameters.cleanCheckout }}  # whether to fetch clean each time
+
+# Runs common steps - gitVersion, Nuget
+  - template: ../templates/common/common.yml
+
+# Performs npm steps - install, build, test, test publishing
+  - template: ../templates/npm/npm.yml
+    parameters:
+      nodeVersion: ${{ parameters.nodeVersion }}
+
+# SonarCloud Prepare step
+  - template: ../templates/sonarCloud/sonarCloudPrepare.yml
+    parameters:
+       sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
+       sonarCloudprojectName: '$(Build.Repository.Name)'
+       sonarCloudextraProperties: ${{ parameters.sonarCloudextraProperties }}
+
+# Restore NuGet packages and build VS solution
+  - template: ../templates/vsBuild/dotnetBuild.yml
+    parameters:
+      buildConfiguration: '${{ parameters.buildConfiguration }}'
+      vstsFeedId: '${{ parameters.vstsFeedId }}'
+
+# Get secrets from Key Vault
+  - template: ../templates/getSecrets/getSecrets.yml
+    parameters:
+        azureSubscription: '${{ parameters.azureSubscription }}'
+        KeyVaultName: '${{ parameters.KeyVaultName }}'
+        SecretsFilter: '${{ parameters.SecretsFilter }}'
+
+  - template: ../templates/getSecrets/getSecrets.yml
+    parameters:
+        azureSubscription: '${{ parameters.azureSubscription }}'
+        KeyVaultName: '${{ parameters.infraKeyVaultName }}'
+        SecretsFilter: '${{ parameters.infraSecretsFilter }}'
+
+  # Executes tests projects that do not contain acceptance in the name
+  - template: ../templates/tests/runAllTests.yml
+    parameters:
+      buildConfiguration: '${{ parameters.buildConfiguration }}'
+      integrationTestsAppSettingsTransform: '${{ parameters.integrationTestsAppSettingsTransform }}'
+      coverletCoverageExclusions: '${{ parameters.coverletCoverageExclusions }}'
+      dalWorkingDirectory: '${{ parameters.dalWorkingDirectory }}'
+
+  # Executes the Donet CLI publish command to package the application
+  - template: ../templates/publishArtifacts/dotnetPublish.yml
+    parameters:
+      buildConfiguration: '${{ parameters.buildConfiguration }}'
+      apiDirectory: '${{ parameters.apiDirectory }}'
+
+# Executes tests and publishes results
+  - template: ../templates/sonarCloud/sonarCloudRunAnalysis.yml
+
+# Publish artifacts
+  - template: ../templates/publishArtifacts/publishArtifacts.yml
+    parameters:
+      dalWorkingDirectory: '${{ parameters.dalWorkingDirectory }}'
+      buildConfiguration: '${{ parameters.buildConfiguration }}'
