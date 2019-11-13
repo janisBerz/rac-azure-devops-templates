@@ -23,13 +23,13 @@ steps:
   #     }
   #   displayName: Resolve Acceptance Tests bin path
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifacts: Acceptan
-    ce Tests'
-    inputs:
-      PathtoPublish: '$(AcceptanceTestsPath)'
-      ArtifactName: AcceptanceTests
-    condition: ne(variables['AcceptanceTestsPath'], '')
+  # - task: PublishBuildArtifacts@1
+  #   displayName: 'Publish Artifacts: Acceptan
+  #   ce Tests'
+  #   inputs:
+  #     PathtoPublish: '$(AcceptanceTestsPath)'
+  #     ArtifactName: AcceptanceTests
+  #   condition: ne(variables['AcceptanceTestsPath'], '')
 
   # # This step will check if the Infrastructure code folder exists if not the consecutive step will be skipped.
   # # Some source code repos might not have Infrastructure code.
