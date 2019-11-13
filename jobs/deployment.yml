@@ -1,7 +1,8 @@
 parameters:
   pool: 'rac-pool'
   azureSubscriptionName: 'DevTest'
-  WebAppName: 'DevTest'
+  webAppName: ''
+  functionName: ''
 
 jobs:
 - deployment: deployment_dev
@@ -20,7 +21,7 @@ jobs:
             azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
             pool: '${{ parameters.pool }}'
             WebAppName: '${{ parameters.WebAppName }}'
-
+            functionName: '${{ parameters.functionName }}'
 
 - deployment: deployment_uat
   displayName: 'UAT'
@@ -38,6 +39,7 @@ jobs:
             azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
             pool: '${{ parameters.pool }}'
             WebAppName: '${{ parameters.WebAppName }}'
+            functionName: '${{ parameters.functionName }}'
 
 - deployment: deployment_prod
   displayName: 'Prod'
@@ -55,3 +57,4 @@ jobs:
             azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
             pool: '${{ parameters.pool }}'
             WebAppName: '${{ parameters.WebAppName }}'
+            functionName: '${{ parameters.functionName }}'

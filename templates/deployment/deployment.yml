@@ -4,9 +4,19 @@ parameters:
 
 steps:
   - task: AzureRmWebAppDeployment@4
-    displayName: 'Azure App Service Deploy'
+    condition: and(succeeded(), ne('${{ parameters.WebAppName }}', ''))
+    displayName: 'Deploy Function App'
     inputs:
       appType: functionApp
+      ConnectedServiceName: '${{ parameters.azureSubscriptionName }}'
+      WebAppName: '${{ parameters.WebAppName }}'
+      package: '$(Pipeline.Workspace)/app/*.zip'
+
+  - task: AzureRmWebAppDeployment@4
+    condition: and(succeeded(), ne('${{ parameters.WebAppName }}', ''))
+    displayName: 'Deploy Web App'
+    inputs:
+      appType: webApp
       ConnectedServiceName: '${{ parameters.azureSubscriptionName }}'
       WebAppName: '${{ parameters.WebAppName }}'
       package: '$(Pipeline.Workspace)/app/*.zip'
