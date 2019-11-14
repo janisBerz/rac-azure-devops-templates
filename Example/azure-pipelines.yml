@@ -2,6 +2,7 @@ variables:
   functionName: 'rac-fileinflate-$(Environment.Name)'
   resourceGroupName: 'rac-demo-app'
   coverletCoverageExclusions: ''
+  sonarCloudExtraProperties: ''
 
 # GitHub Repo that conatins build templates. Reference https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=vsts#using-other-repositories
 resources:

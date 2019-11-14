@@ -21,4 +21,4 @@ steps:
       projectKey: '$(sonarCloudProjectKey)'
       projectName: '${{ parameters.sonarCloudProjectName }}'
       projectVersion: '${{ parameters.sonarCloudProjectVersion }}'
-      extraProperties: '${{ parameters.sonarCloudExtraProperties }}'
+      #extraProperties: '${{ parameters.sonarCloudExtraProperties }}'
