@@ -1,0 +1,3 @@
+steps:
+  - task: WhiteSource Bolt@19
+    displayName: 'WhiteSource Bolt'

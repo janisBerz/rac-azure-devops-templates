@@ -4,7 +4,6 @@ parameters:
 
 
 steps:
-
   - task: DotNetCoreCLI@2
     displayName: Run all test projects
     inputs:

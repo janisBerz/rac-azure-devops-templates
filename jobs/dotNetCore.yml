@@ -51,6 +51,9 @@ jobs:
       functionName: '${{ parameters.functionName }}'
       webAppName: '${{ parameters.webAppName }}'
 
+  # Runs White Source step
+  - template: ../templates/whiteSource/whiteSource.yml
+
 # # Executes tests and publishes results
   - template: ../templates/sonarCloud/sonarCloudRunAnalysis.yml
 
