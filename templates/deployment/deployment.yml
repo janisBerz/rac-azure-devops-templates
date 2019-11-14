@@ -3,7 +3,6 @@ parameters:
   functionName: ''
   webAppName: ''
 
-
 steps:
   - task: AzureRmWebAppDeployment@4
     condition: and(succeeded(), ne('${{ parameters.functionName }}', ''))

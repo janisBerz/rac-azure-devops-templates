@@ -4,7 +4,6 @@ parameters:
   webAppName: ''
   functionName: ''
 
-
 stages:
 - stage: Deployment_Dev
   jobs:

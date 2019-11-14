@@ -22,4 +22,3 @@ steps:
       projects: '**/*.sln'
       publishWebProjects: false
       zipAfterPublish: true
-      #modifyOutputPath: true
