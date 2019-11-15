@@ -1,5 +1,5 @@
 parameters:
-  pool: 'rac-pool'
+  pool: 'windows-latest'
   azureSubscriptionName: 'DevTest'
   webAppName: ''
   functionName: ''
@@ -9,7 +9,8 @@ stages:
   jobs:
   - deployment: deployment_dev
     displayName: 'Dev'
-    pool: '${{ parameters.pool }}'
+    pool:
+      vmImage: '${{ parameters.pool }}'
     environment: 'dev'
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     strategy:
@@ -19,7 +20,6 @@ stages:
           - template: ../templates/deployment/deployment.yml
             parameters:
               azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
-              pool: '${{ parameters.pool }}'
               WebAppName: '${{ parameters.WebAppName }}'
               functionName: '${{ parameters.functionName }}'
 
@@ -27,7 +27,8 @@ stages:
   jobs:
   - deployment: deployment_uat
     displayName: 'UAT'
-    pool: '${{ parameters.pool }}'
+    pool:
+      vmImage: '${{ parameters.pool }}'
     environment: 'test'
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
     strategy:
@@ -37,7 +38,6 @@ stages:
           - template: ../templates/deployment/deployment.yml
             parameters:
               azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
-              pool: '${{ parameters.pool }}'
               WebAppName: '${{ parameters.WebAppName }}'
               functionName: '${{ parameters.functionName }}'
 
@@ -45,7 +45,8 @@ stages:
   jobs:
   - deployment: deployment_prod
     displayName: 'Prod'
-    pool: '${{ parameters.pool }}'
+    pool:
+      vmImage: '${{ parameters.pool }}'
     environment: 'prod'
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
     strategy:
@@ -55,6 +56,6 @@ stages:
           - template: ../templates/deployment/deployment.yml
             parameters:
               azureSubscriptionName: '${{ parameters.azureSubscriptionName }}'
-              pool: '${{ parameters.pool }}'
+
               WebAppName: '${{ parameters.WebAppName }}'
               functionName: '${{ parameters.functionName }}'

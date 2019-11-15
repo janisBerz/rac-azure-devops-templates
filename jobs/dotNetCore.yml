@@ -1,5 +1,5 @@
 parameters:
-  pool: 'rac-pool'
+  pool: 'windows-latest'
   cleanCheckout: 'false'
   azureSubscription: 'DevTest'
   buildConfiguration: 'Release'
@@ -14,7 +14,8 @@ parameters:
 jobs:
 - job:
   displayName: 'Build & Test .Net Core'
-  pool: ${{ parameters.pool }}
+  pool:
+    vmImage: ${{ parameters.pool }}
 
   # Reference templae for setting up build tools
   steps:
