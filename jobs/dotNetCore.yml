@@ -22,28 +22,10 @@ jobs:
   - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
     clean: ${{ parameters.cleanCheckout }}  # whether to fetch clean each time
 
-# Runs common steps - gitVersion, Nuget
-  - template: ../templates/common/common.yml
-
-# SonarCloud Prepare step
-  - template: ../templates/sonarCloud/sonarCloudPrepare.yml
-    parameters:
-       sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
-       sonarCloudprojectName: '$(Build.Repository.Name)'
-       sonarCloudextraProperties: ${{ parameters.sonarCloudextraProperties }}
-
 # Restore NuGet packages and build VS solution
   - template: ../templates/vsBuild/dotnetBuild.yml
     parameters:
       buildConfiguration: '${{ parameters.buildConfiguration }}'
-
-  # Executes tests projects that do not contain acceptance in the name
-  - template: ../templates/tests/runAllTests.yml
-    parameters:
-      buildConfiguration: '${{ parameters.buildConfiguration }}'
-      integrationTestsAppSettingsTransform: '${{ parameters.integrationTestsAppSettingsTransform }}'
-      coverletCoverageExclusions: '${{ parameters.coverletCoverageExclusions }}'
-      dalWorkingDirectory: '${{ parameters.dalWorkingDirectory }}'
 
   # Executes the Donet CLI publish command to package the application
   - template: ../templates/publishArtifacts/dotnetPublish.yml
@@ -54,9 +36,6 @@ jobs:
 
 # # Runs White Source step
 #   - template: ../templates/whiteSource/whiteSource.yml
-
-# # Executes tests and publishes results
-  - template: ../templates/sonarCloud/sonarCloudRunAnalysis.yml
 
 # Publish artifacts
   - template: ../templates/publishArtifacts/publishArtifacts.yml
